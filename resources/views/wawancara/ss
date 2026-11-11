@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HIMTIF — Form Interview Seleksi</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+    @include('wawancara.styles')
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="card" id="app">
+            <header>
+                 @include('wawancara.title')
+                <div class="row">
+                    <button class="btn slim ghost" id="btnNew">Entri Baru</button>
+                    <button class="btn slim" id="btnSave">Simpan (Lokal)</button>
+                    <button class="btn slim" id="btnExport">Ekspor CSV</button>
+                    <label class="btn slim ghost" for="fileImport" style="cursor:pointer">Impor JSON</label>
+                    <input id="fileImport" type="file" accept="application/json" style="display:none" />
+                </div>
+            </header>
+
+            <div class="grid g2" style="padding:16px" id="formRoot">
+
+                <div class="form-area">
+                    <div class="box grid g2">
+                        <div>
+                            <label for="nama">Nama Calon</label>
+                            <input id="nama" placeholder="Nama lengkap" />
+                        </div>
+                        <div>
+                            <label for="nim">NIM</label>
+                            <input id="nim" placeholder="NIM" />
+                        </div>
+                        <div>
+                            <label for="tanggal">Tanggal Interview</label>
+                            <input id="tanggal" type="date" />
+                        </div>
+                        <div>
+                            <label for="pewawancara">Pewawancara</label>
+                            <input id="pewawancara" placeholder="Nama pewawancara" />
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div class="section-title" style="margin:0;">Skor Aspek (1–5)</div>
+                            <button class="btn slim ghost" id="btnPanduan"
+                                style="font-size: 11px; padding: 6px 8px;">Panduan (?)</button>
+                        </div>
+                        <div class="grid g3">
+                            <div>
+                                <label for="s_motivasi">Motivasi</label>
+                                <select id="s_motivasi">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option selected>5</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="s_komitmen">Komitmen</label>
+                                <select id="s_komitmen">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option selected>5</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="s_sikap">Sikap & Kerja Sama</label>
+                                <select id="s_sikap">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option selected>5</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="s_ketekunan">Ketekunan</label>
+                                <select id="s_ketekunan">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option selected>5</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="s_kesiapan">Kesiapan Diri</label>
+                                <select id="s_kesiapan">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option selected>5</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="catatanSkor">Catatan Ringkas Skor</label>
+                                <input id="catatanSkor" placeholder="Alasan singkat penilaian" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <div class="section-title">Catatan Pewawancara</div>
+                        <label for="catatan" style="display:none">Catatan Pewawancara</label>
+                        <textarea id="catatan" placeholder="Poin penting, penguatan, area pembinaan, dll."></textarea>
+                    </div>
+
+                    <div class="box">
+                        <div class="section-title">Rekap & Klasifikasi</div>
+                        <div class="kpi" id="kpi"></div>
+                        <div class="row" style="margin-top:10px">
+                            <button class="btn primary" id="btnUpdatePreview">Perbarui Pratinjau</button>
+                            <button class="btn" id="btnPrint">Cetak/Save PDF (Print)</button>
+                            <button class="btn" id="btnPDF">Unduh PDF</button>
+                            <button class="btn" id="btnJPEG">Unduh JPEG</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="box">
+                        <div class="section-title">Pratinjau Dokumen (Hasil)</div>
+
+                        <div id="printArea">
+                            <div
+                                style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                                <div style="font-size:18px;font-weight:800">HIMTIF — Laporan Interview Seleksi</div>
+                                <div class="badge">CONFIDENTIAL</div>
+                            </div>
+                            <table class="table" style="width:100%;font-size:14px">
+                                <tr>
+                                    <th>Nama</th>
+                                    <td id="p_nama"></td>
+                                    <th>NIM</th>
+                                    <td id="p_nim"></td>
+                                </tr>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <td id="p_tanggal"></td>
+                                    <th>Pewawancara</th>
+                                    <td id="p_pewawancara"></td>
+                                </tr>
+                            </table>
+                            <hr />
+                            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:14px">
+                                <div>Motivasi: <b id="p_motivasi">-</b></div>
+                                <div>Komitmen: <b id="p_komitmen">-</b></div>
+                                <div>Sikap: <b id="p_sikap">-</b></div>
+                                <div>Ketekunan: <b id="p_ketekunan">-</b></div>
+                                <div>Kesiapan: <b id="p_kesiapan">-</b></div>
+                                <div>Rerata: <b id="p_rerata">-</b></div>
+                            </div>
+                            <div style="margin:8px 0 4px 0;font-weight:700">Klasifikasi: <span
+                                    id="p_klasifikasi">-</span></div>
+                            <div style="font-size:12px;color:#444;margin-bottom:8px" id="p_alasan">&nbsp;</div>
+                            <div style="font-weight:700;margin-top:8px">Catatan Pewawancara</div>
+                            <div id="p_catatan"></div>
+                            <div
+                                style="display:flex;justify-content:space-between;gap:12px;margin-top:24px;align-items:flex-end">
+                                <div>
+                                    <div class="muted" style="font-size:12px">Tanda Tangan Pewawancara</div>
+                                    <div style="height:60px;border-bottom:1px dashed #999;width:240px"></div>
+                                    <div id="p_ttd" style="font-size:12px;margin-top:6px"></div>
+                                </div>
+                                <div style="text-align:right;font-size:11px;color:#555">
+                                    <div>Dokumen ini otomatis dari Form Interview HIMTIF</div>
+                                    <div id="p_generated"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <div class="section-title">Data Tersimpan (Perangkat Ini)</div>
+                        <label for="search" style="display:none">Cari data</label>
+                        <input id="search" placeholder="Cari nama/NIM..." />
+                        <div style="max-height:220px;overflow:auto;margin-top:8px">
+                            <table class="table" id="tbl"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    @include('wawancara.footer')
+    @include('wawancara.script')
+
+</body>
+
+</html>

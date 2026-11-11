@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Admin Dashboard</title>
+
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://unpkg.com/heroicons@2.1.5/24/outline/index.js"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            base: "#EFEAE6",
+                            surface: "#F7F4F1",
+                            surfaceSoft: "#ECE5DF",
+
+                            brand: "#D8CFC8",
+                            brandDark: "#C5BAB1",
+
+                            accent: "#9C8579",
+                            accentHover: "#856F64",
+
+                            textmain: "#3F3A37",
+                            textmuted: "#6B6460",
+                        },
+                    },
+                },
+            };
+        </script>
+    </head>
+
+    <body class="bg-base text-textmain antialiased overflow-x-hidden">
+        <!-- Overlay -->
+        <div
+            id="overlay"
+            onclick="toggleSidebar()"
+            class="fixed inset-0 bg-black/40 z-30 hidden lg:hidden"
+        ></div>
+
+        <!-- Sidebar -->
+        <aside
+            id="sidebar"
+            class="fixed inset-y-0 left-0 z-40 w-64 bg-brandDark shadow-2xl transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col"
+        >
+            <!-- Brand -->
+            <div class="px-6 py-5 border-b border-black/10">
+                <h1 class="text-lg font-semibold tracking-wide">Admin Panel</h1>
+                <p class="text-xs text-textmuted mt-1">Management System</p>
+            </div>
+
+            <!-- Menu -->
+            <nav class="flex-1 px-3 py-5 text-sm space-y-6 overflow-y-auto">
+                <!-- Main -->
+                <div>
+                    <p
+                        class="px-3 mb-2 text-xs font-semibold uppercase text-textmuted"
+                    >
+                        Main
+                    </p>
+
+                    <!-- Dashboard -->
+                    <a
+                        class="group relative flex items-center gap-3 px-3 py-2.5 rounded-lg bg-surface font-medium shadow-sm"
+                    >
+                        <span
+                            class="absolute left-0 top-0 h-full w-1 bg-accent rounded-r"
+                        ></span>
+
+                        <!-- Home Icon -->
+                        <svg
+                            class="w-5 h-5 text-accent"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M3 12l9-9 9 9M4 10v10a1 1 0 001 1h4m10-11v11a1 1 0 01-1 1h-4"
+                            />
+                        </svg>
+
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+
+                <!-- Master Data -->
+                <div>
+                    <p
+                        class="px-3 mb-2 text-xs font-semibold uppercase text-textmuted"
+                    >
+                        Master Data
+                    </p>
+
+                    <!-- Kode Kriteria -->
+                    <a
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface transition"
+                    >
+                        <svg
+                            class="w-5 h-5 text-textmuted"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M8 7h8M8 12h8M8 17h8"
+                            />
+                        </svg>
+                        <span>Kode Kriteria</span>
+                    </a>
+
+                    <!-- Kriteria -->
+                    <a
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface transition"
+                    >
+                        <svg
+                            class="w-5 h-5 text-textmuted"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M9 12h6M9 16h6M9 8h6M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                            />
+                        </svg>
+                        <span>Kriteria</span>
+                    </a>
+
+                    <!-- Alternatif -->
+                    <a
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface transition"
+                    >
+                        <svg
+                            class="w-5 h-5 text-textmuted"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M17 20h5V4H2v16h5m10 0V10H7v10m10 0H7"
+                            />
+                        </svg>
+                        <span>Alternatif</span>
+                    </a>
+                </div>
+
+                <!-- Perhitungan -->
+                <div>
+                    <p
+                        class="px-3 mb-2 text-xs font-semibold uppercase text-textmuted"
+                    >
+                        Proses
+                    </p>
+
+                    <a
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface transition"
+                    >
+                        <svg
+                            class="w-5 h-5 text-textmuted"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M13 7h8m-8 4h8m-8 4h8M3 7h4v10H3z"
+                            />
+                        </svg>
+                        <span>Perhitungan</span>
+                    </a>
+                </div>
+
+                <!-- System -->
+                <div>
+                    <p
+                        class="px-3 mb-2 text-xs font-semibold uppercase text-textmuted"
+                    >
+                        System
+                    </p>
+
+                    <!-- Settings -->
+                    <a
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface transition"
+                    >
+                        <svg
+                            class="w-5 h-5 text-textmuted"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M11.983 13.843a1.843 1.843 0 100-3.686 1.843 1.843 0 000 3.686z"
+                            />
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9c.69 0 1.25.56 1.25 1.25S20.09 11.5 19.4 11.5z"
+                            />
+                        </svg>
+                        <span>Pengaturan</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Sidebar Footer -->
+            <div
+                class="px-6 py-4 border-t border-black/10 text-xs text-textmuted"
+            >
+                © 2026 Company Name
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="min-h-screen flex flex-col lg:pl-64">
+            <!-- Topbar -->
+            <header
+                class="sticky top-0 z-20 bg-surface/90 backdrop-blur border-b border-black/5 px-6 py-4 flex justify-between"
+            >
+                <div class="flex items-center gap-3">
+                    <button
+                        onclick="toggleSidebar()"
+                        class="lg:hidden text-xl focus:outline-none"
+                    >
+                        ☰
+                    </button>
+                    <h1 class="font-semibold text-lg">Projects</h1>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <input
+                        type="text"
+                        placeholder="Search…"
+                        class="hidden md:block px-4 py-2 rounded-lg bg-base text-sm focus:outline-none focus:ring focus:ring-accent/30"
+                    />
+                    <div class="relative">
+                        <!-- Avatar -->
+                        <button
+                            onclick="toggleProfileDropdown()"
+                            class="w-9 h-9 rounded-full bg-brandDark flex items-center justify-center focus:outline-none ring-2 ring-transparent hover:ring-accent transition"
+                        >
+                            <span class="text-sm font-semibold text-textmain"
+                                >A</span
+                            >
+                        </button>
+
+                        <!-- Dropdown -->
+                        <div
+                            id="profileDropdown"
+                            class="hidden absolute right-0 mt-3 w-52 bg-surface rounded-xl shadow-xl border border-black/5 overflow-hidden z-50"
+                        >
+                            <!-- User Info -->
+                            <div class="px-4 py-3 border-b border-black/5">
+                                <p class="text-sm font-semibold">Admin User</p>
+                                <p class="text-xs text-textmuted">
+                                    admin@email.com
+                                </p>
+                            </div>
+
+                            <!-- Menu -->
+                            <div class="py-2 text-sm">
+                                <a
+                                    href="#"
+                                    class="flex items-center gap-3 px-4 py-2 hover:bg-base transition"
+                                >
+                                    Edit Profile
+                                </a>
+
+                                <a
+                                    href="#"
+                                    class="flex items-center gap-3 px-4 py-2 hover:bg-base transition"
+                                >
+                                    User Management
+                                </a>
+
+                                <a
+                                    href="#"
+                                    class="flex items-center gap-3 px-4 py-2 hover:bg-base transition"
+                                >
+                                    Pengaturan
+                                </a>
+                            </div>
+
+                            <!-- Logout -->
+                            <div class="border-t border-black/5">
+                                <a
+                                    href="#"
+                                    class="flex items-center gap-3 px-4 py-2 text-red-600 hover:bg-red-50 transition text-sm"
+                                >
+                                    Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <main class="flex-1 bg-surfaceSoft p-6 space-y-6">
+                <!-- Header Card -->
+                <section
+                    class="bg-brand rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-sm"
+                >
+                    <div>
+                        <h2 class="text-xl font-semibold">Projects Overview</h2>
+                        <p class="text-sm text-textmuted mt-1">
+                            Summary of ongoing projects and performance
+                        </p>
+                    </div>
+
+                    <button
+                        class="px-5 py-2 rounded-lg bg-accent text-white hover:bg-accentHover transition font-medium"
+                    >
+                        Create New Project
+                    </button>
+                </section>
+
+                <!-- KPI -->
+                <section
+                    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+                >
+                    <div
+                        class="bg-surface rounded-xl p-5 shadow-sm border border-black/5"
+                    >
+                        <p class="text-sm text-textmuted">Projects</p>
+                        <h3 class="text-2xl font-bold mt-1">18</h3>
+                    </div>
+                    <div
+                        class="bg-surface rounded-xl p-5 shadow-sm border border-black/5"
+                    >
+                        <p class="text-sm text-textmuted">Active Tasks</p>
+                        <h3 class="text-2xl font-bold mt-1">132</h3>
+                    </div>
+                    <div
+                        class="bg-surface rounded-xl p-5 shadow-sm border border-black/5"
+                    >
+                        <p class="text-sm text-textmuted">Teams</p>
+                        <h3 class="text-2xl font-bold mt-1">12</h3>
+                    </div>
+                    <div
+                        class="bg-surface rounded-xl p-5 shadow-sm border border-black/5"
+                    >
+                        <p class="text-sm text-textmuted">Productivity</p>
+                        <h3 class="text-2xl font-bold mt-1">76%</h3>
+                    </div>
+                </section>
+
+                <!-- Table -->
+                <section
+                    class="bg-surface rounded-xl shadow-sm border border-black/5 overflow-hidden"
+                >
+                    <table class="w-full text-sm">
+                        <thead class="bg-base text-textmuted">
+                            <tr>
+                                <th class="px-6 py-4 text-left font-medium">
+                                    Project
+                                </th>
+                                <th class="px-6 py-4 text-left font-medium">
+                                    Hours
+                                </th>
+                                <th class="px-6 py-4 text-left font-medium">
+                                    Progress
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                class="border-t border-black/5 hover:bg-base/60 transition"
+                            >
+                                <td class="px-6 py-4 font-medium">
+                                    Design System
+                                </td>
+                                <td class="px-6 py-4">120</td>
+                                <td class="px-6 py-4">
+                                    <div class="h-2 bg-base rounded-full">
+                                        <div
+                                            class="h-2 w-3/4 bg-accent rounded-full"
+                                        ></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr
+                                class="border-t border-black/5 hover:bg-base/60 transition"
+                            >
+                                <td class="px-6 py-4 font-medium">
+                                    Web Application
+                                </td>
+                                <td class="px-6 py-4">89</td>
+                                <td class="px-6 py-4">
+                                    <div class="h-2 bg-base rounded-full">
+                                        <div
+                                            class="h-2 w-1/2 bg-accent rounded-full"
+                                        ></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </main>
+
+            <!-- Footer -->
+            <footer class="bg-surface text-center text-sm py-4 text-textmuted">
+                © 2026 Admin Dashboard
+            </footer>
+        </div>
+
+        <script>
+            function toggleSidebar() {
+                document
+                    .getElementById("sidebar")
+                    .classList.toggle("-translate-x-full");
+                document.getElementById("overlay").classList.toggle("hidden");
+            }
+        </script>
+
+        <script>
+            function toggleProfileDropdown() {
+                document
+                    .getElementById("profileDropdown")
+                    .classList.toggle("hidden");
+            }
+
+            // Close dropdown when clicking outside
+            document.addEventListener("click", function (event) {
+                const dropdown = document.getElementById("profileDropdown");
+                const avatar = event.target.closest("button");
+
+                if (!event.target.closest("#profileDropdown") && !avatar) {
+                    dropdown.classList.add("hidden");
+                }
+            });
+        </script>
+    </body>
+</html>
+
+<!-- Pertama, bagian dasboard grafik lingkaran isi nya jumlah pendaftar dari semester 1-2-3, 
+
+Lanjut ke manajemen user, kayanya gausah masuk di navigasi, masuk di kanan atas aja tempat buat setting Admin atau author
+
+Lanjut kode kriteria sama Kriteria samain aja kaya ripdah
+
+Lanjut Alternatif pas tambah alternatif tampilan nya nanti gua gambarin tapi bentar dulu
+
+Lanjut di perhitungan nanti ada klasifikasi nya yan, ada Layak - Perlu Pembinaan - Tidak Layak, nanti di sample gua udah ada range nya buat yang layak sampe tidak layak nya -->
